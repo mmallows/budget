@@ -24,6 +24,7 @@ public class Transaction extends Entity {
         this.setDate(dateInput);
         this.setAccount(routingNum, acctNum);
         this.setName(nameInput);
+        this.setDisplayName(nameInput);
         // TODO: Look up transaction by date, account, name and pull existing data
         this.setAmount(amountInput);
         this.setExpenseCategory();
