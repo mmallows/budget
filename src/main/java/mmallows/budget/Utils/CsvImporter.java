@@ -11,21 +11,25 @@ public abstract class CsvImporter {
 
     private String filePath;
     private String[] columnHeaders;
+    protected List<HashMap<String, Object>> data;
 
     public CsvImporter(String filePath) {
         this.filePath = filePath;
+        this.data = new ArrayList<>();
+
+        this.processCsvData();
     }
 
     public String[] getColumnHeaders() {
-        return columnHeaders;
+        return this.columnHeaders;
     }
 
-    public List<HashMap<String, Object>> processCsvData() {
+    public void processCsvData() {
         List<HashMap<String, Object>> data = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String headerLine = br.readLine();
             if (headerLine == null) {
-                return data;
+                return;
             }
             this.columnHeaders = headerLine.split(",");
 
@@ -47,6 +51,6 @@ public abstract class CsvImporter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return data;
+        this.data = data;
     }
 }

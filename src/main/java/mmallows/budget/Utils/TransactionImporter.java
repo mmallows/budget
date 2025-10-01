@@ -15,11 +15,13 @@ public class TransactionImporter extends CsvImporter {
     public void importTransactions() {
         for (HashMap<String, Object> row : this.data) {
             try {
-                String date = (String) row.get("date");
-                int routingNumber = Integer.parseInt((String) row.get("routing_number"));
-                int accountNumber = Integer.parseInt((String) row.get("account_number"));
-                String name = (String) row.get("name");
-                double amount = Double.parseDouble((String) row.get("amount"));
+                String date = (String) row.get("Date");
+                int routingNumber = Integer.parseInt((String) row.get("Bank RTN"));
+                int accountNumber = Integer.parseInt((String) row.get("Account Number"));
+                String name = (String) row.get("Description");
+                double debit = Double.parseDouble((String) row.get("Debit"));
+                double credit = Double.parseDouble((String) row.get("Credit"));
+                double amount = credit - debit;
 
                 HashMap<String, Object> conditions = new HashMap<>();
                 conditions.put("date", date);
