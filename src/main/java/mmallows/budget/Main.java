@@ -19,9 +19,15 @@ public class Main {
                 // Create a sample table if it doesn't exist
                 String sql = "CREATE TABLE IF NOT EXISTS transaction (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "name TEXT NOT NULL, " +
+                        "valid BOOLEAN NOT NULL DEFAULT 1, " +
                         "date TEXT NOT NULL, " +
-                        "description TEXT NOT NULL, " +
-                        "amount REAL NOT NULL" +
+                        "apply_date TEXT, " +
+                        "routing_number INTEGER, " +
+                        "account_number INTEGER NOT NULL, " +
+                        "display_name TEXT, " +
+                        "amount REAL NOT NULL, " +
+                        "expense_category_id INTEGER, " +
                         ");";
 
                 try (Statement stmt = conn.createStatement()) {
