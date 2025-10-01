@@ -15,12 +15,11 @@ public class TransactionDao extends BaseDao<Transaction> {
 
     @Override
     public Transaction mapRow(ResultSet rs) throws SQLException {
-        Transaction transaction = new Transaction(
-                rs.getString("date"),
-                rs.getInt("routing_number"),
-                rs.getInt("account_number"),
-                rs.getString("name"),
-                rs.getDouble("amount"));
+        Transaction transaction = new Transaction();
+        transaction.setDate(rs.getString("date"));
+        transaction.setAccount(rs.getInt("routing_number"), rs.getInt("account_number"));
+        transaction.setName(rs.getString("name"));
+        transaction.setAmount(rs.getDouble("amount"));
         transaction.setId(rs.getInt("id"));
         transaction.setExpenseCategoryId(rs.getInt("expense_category_id"));
         return transaction;
@@ -31,6 +30,7 @@ public class TransactionDao extends BaseDao<Transaction> {
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", transaction.getId());
         map.put("date", transaction.getDate());
+        map.put("apply_date", transaction.getApplyDate());
         map.put("routing_number", transaction.getRoutingNumber());
         map.put("account_number", transaction.getAccountNumber());
         map.put("name", transaction.getName());

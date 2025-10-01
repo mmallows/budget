@@ -19,8 +19,10 @@ public abstract class BaseDao<T extends Entity> {
 
     public abstract String getTableName();
 
+    // Maps the ResultSet to and Entity object
     public abstract T mapRow(ResultSet rs) throws SQLException;
 
+    // Maps the Entity object to a HashMap of column name, value
     public abstract HashMap<String, Object> mapObject(T entity);
 
     protected Connection getConnection() throws SQLException {
@@ -56,12 +58,42 @@ public abstract class BaseDao<T extends Entity> {
         List<T> list = new ArrayList<>();
         String sql = "SELECT * FROM " + getTableName() + " WHERE " + columnName + " = ?";
 
+        if (includeInvalid) {
+            sql += "AND (valid = 1)";
+        }
+
         try (Connection conn = getConnection();
                 java.sql.PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setObject(1, value);
             ResultSet rs = pstmt.executeQuery();
 
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<T> findByColumns(HashMap<String, Object> conditions, boolean includeInvalid) {
+        List<T> list = new ArrayList<>();
+        if (conditions == null || conditions.isEmpty())
+            return list;
+
+        String whereClause = conditions.keySet().stream()
+                .map(col -> col + " = ?")
+                .collect(Collectors.joining(" AND "));
+        String sql = "SELECT * FROM " + getTableName() + " WHERE " + whereClause;
+
+        try (Connection conn = getConnection();
+                java.sql.PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            int index = 1;
+            for (String col : conditions.keySet()) {
+                pstmt.setObject(index++, conditions.get(col));
+            }
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 list.add(mapRow(rs));
             }
