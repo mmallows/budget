@@ -56,10 +56,10 @@ public abstract class BaseDao<T extends Entity> {
 
     public List<T> findByColumn(String columnName, Object value, boolean includeInvalid) {
         List<T> list = new ArrayList<>();
-        String sql = "SELECT * FROM " + getTableName() + " WHERE " + columnName + " = ?";
+        String sql = "SELECT * FROM " + this.getTableName() + " WHERE " + columnName + " = ?";
 
         if (includeInvalid) {
-            sql += "AND (valid = 1)";
+            sql += " AND (valid = 1)";
         }
 
         try (Connection conn = getConnection();
