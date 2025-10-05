@@ -31,20 +31,27 @@ public abstract class CsvImporter {
             if (headerLine == null) {
                 return;
             }
-            this.columnHeaders = headerLine.split(",");
+            this.columnHeaders = headerLine.split(",", -1);
 
             String line;
             while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
+                String[] values = line.split(",", -1);
 
-                if (values.length != this.columnHeaders.length) {
-                    System.err.println("Skipping line due to column mismatch: " + line);
-                    continue;
-                }
+                // if (values.length != this.columnHeaders.length) {
+                // System.err.println("Skipping line due to column mismatch: %n");
+                // System.err.println("Expected %d columns but found %d columns.%n"
+                // .formatted(this.columnHeaders.length, values.length));
+                // System.err.println("Expected headers: %s%n".formatted(String.join(", ",
+                // this.columnHeaders)));
+                // System.err.println("Found values: %s%n".formatted(String.join(", ",
+                // values)));
+                // continue;
+                // }
 
                 HashMap<String, Object> row = new HashMap<>();
                 for (int rowNum = 0; rowNum < this.columnHeaders.length && rowNum < values.length; rowNum++) {
-                    row.put(this.columnHeaders[rowNum].trim(), values[rowNum].trim());
+                    row.put(this.columnHeaders[rowNum] == null ? "" : this.columnHeaders[rowNum].trim(),
+                            values[rowNum].trim());
                 }
                 data.add(row);
             }
