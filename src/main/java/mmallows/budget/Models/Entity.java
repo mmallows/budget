@@ -3,13 +3,34 @@ package mmallows.budget.Models;
 import mmallows.budget.DAO.BaseDao;
 
 public abstract class Entity {
-    private Integer id;
-    private String name;
-    private boolean valid;
+    protected Integer id;
+    protected String name;
+    protected boolean valid;
 
-    public abstract BaseDao<?> getDao();
+    protected abstract BaseDao<?> getDao();
 
     public abstract String getTableName();
+
+    public Entity() {
+        this.setName("");
+        this.setValid(true);
+    }
+
+    public Entity(int id) {
+        BaseDao<?> dao = this.getDao();
+        if (dao != null) {
+            Entity entity = dao.findById(id).stream().findFirst().orElse(null);
+            if (entity != null) {
+                this.id = entity.getId();
+                this.name = entity.getName();
+                this.valid = entity.isValid();
+            } else {
+                throw new IllegalArgumentException("Entity with ID " + id + " not found.");
+            }
+        } else {
+            throw new UnsupportedOperationException("DAO not implemented for this entity.");
+        }
+    }
 
     public void setId(Integer id) {
         this.id = id;

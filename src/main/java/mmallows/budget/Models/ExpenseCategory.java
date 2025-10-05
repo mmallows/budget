@@ -1,16 +1,39 @@
 package mmallows.budget.Models;
 
-public class ExpenseCategory {
+import mmallows.budget.DAO.BaseDao;
+import mmallows.budget.DAO.ExpenseCategoryDao;
+
+public class ExpenseCategory extends Entity {
     private int id;
     private String name;
-    private int idExpenseBucket;
+    private int expense_bucket_id;
 
-    public ExpenseCategory(String name, int idExpenseBucket) {
+    public ExpenseCategory() {
+        super();
+    }
+
+    public ExpenseCategory(String name, int expense_bucket_id) {
         this.name = name;
-        this.idExpenseBucket = idExpenseBucket;
+        this.expense_bucket_id = expense_bucket_id;
     }
 
     public ExpenseCategory(int id) {
         // Lookup expense category by ID
+    }
+
+    public String getTableName() {
+        return "expense_category";
+    }
+
+    public BaseDao<?> getDao() {
+        return new ExpenseCategoryDao();
+    }
+
+    public int getExpenseBucketId() {
+        return this.expense_bucket_id;
+    }
+
+    public void setExpenseBucketId(int expense_bucket_id) {
+        this.expense_bucket_id = expense_bucket_id;
     }
 }

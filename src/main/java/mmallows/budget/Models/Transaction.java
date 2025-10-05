@@ -14,7 +14,7 @@ public class Transaction extends Entity {
     // private int idAccount; TODO: Add an account model
     private String displayName;
     private double amount;
-    private Integer expenseCategory_id;
+    private Integer expense_category_id;
 
     public Transaction() {
         super();
@@ -93,16 +93,16 @@ public class Transaction extends Entity {
     }
 
     public void setExpenseCategoryId(int categoryId) {
-        this.expenseCategory_id = categoryId;
+        this.expense_category_id = categoryId;
         // TODO: Look up the category based on past transactions
     }
 
     public void setExpenseCategory() {
-        this.expenseCategory_id = -1;
+        this.expense_category_id = -1;
         // TODO Lookup category based on past transactions
     }
 
     public Integer getExpenseCategoryId() {
-        return this.expenseCategory_id;
+        return this.expense_category_id;
     }
 }
