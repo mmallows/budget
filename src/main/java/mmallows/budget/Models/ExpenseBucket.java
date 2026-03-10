@@ -3,10 +3,8 @@ package mmallows.budget.Models;
 import mmallows.budget.DAO.BaseDao;
 import mmallows.budget.DAO.ExpenseBucketDao;
 
+@Entity
 public class ExpenseBucket extends Entity {
-    private int id;
-    private String name;
-
     public ExpenseBucket() {
         super();
     }
@@ -15,7 +13,7 @@ public class ExpenseBucket extends Entity {
         this.name = name;
     }
 
-    public ExpenseBucket(int id) {
+    public ExpenseBucket(Long id) {
         // Lookup expense bucket by id
     }
 

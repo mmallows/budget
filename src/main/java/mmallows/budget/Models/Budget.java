@@ -3,6 +3,8 @@ package mmallows.budget.Models;
 import mmallows.budget.DAO.BaseDao;
 import mmallows.budget.DAO.BudgetDao;
 
+@Entity
+@Table(name = "budget")
 public class Budget extends Entity {
 
     public Budget() {
@@ -13,7 +15,7 @@ public class Budget extends Entity {
         this.name = name;
     }
 
-    public Budget(int id) {
+    public Budget(Long id) {
         // Lookup the budget by the ID
     }
 

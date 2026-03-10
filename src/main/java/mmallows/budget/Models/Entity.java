@@ -1,9 +1,14 @@
 package mmallows.budget.Models;
 
+import jakarta.persistence.*;
 import mmallows.budget.DAO.BaseDao;
 
+@MappedSuperclass
 public abstract class Entity {
-    protected Integer id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     protected String name;
     protected boolean valid;
 
@@ -16,7 +21,7 @@ public abstract class Entity {
         this.setValid(true);
     }
 
-    public Entity(int id) {
+    public Entity(Long id) {
         BaseDao<?> dao = this.getDao();
         if (dao != null) {
             Entity entity = dao.findById(id).stream().findFirst().orElse(null);
@@ -32,11 +37,11 @@ public abstract class Entity {
         }
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -57,7 +62,7 @@ public abstract class Entity {
     }
 
     public void save() {
-        BaseDao<?> dao = getDao();
+        BaseDao<?> dao = this.getDao();
         if (dao != null) {
             if (this.id == null) {
                 dao.insert(this);

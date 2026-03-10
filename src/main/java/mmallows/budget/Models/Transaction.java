@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import mmallows.budget.DAO.BaseDao;
 import mmallows.budget.DAO.TransactionDao;
 
+@Entity
+@Table(name = "transaction")
 public class Transaction extends Entity {
     private LocalDate date;
     private LocalDate applyDate;
@@ -14,7 +16,7 @@ public class Transaction extends Entity {
     // private int idAccount; TODO: Add an account model
     private String displayName;
     private double amount;
-    private Integer expense_category_id;
+    private Long expense_category_id;
 
     public Transaction() {
         super();
